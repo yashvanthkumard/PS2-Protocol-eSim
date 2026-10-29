@@ -1,0 +1,29 @@
+* c:\fossee\projects\esim_tutorials\ps2_protocol\ps2_protocol.cir
+
+.include NMOS-180nm.lib
+r1  net-_r1-pad1_ clk_line 4.7k
+r2  net-_r1-pad1_ data_line 4.7k
+m2 data_line data gnd gnd CMOSN W=100u L=100u M=1
+m1 clk_line clk gnd gnd CMOSN W=100u L=100u M=1
+v1  net-_r1-pad1_ gnd 5v
+* u1  clk plot_v1
+* u4  data_line plot_v1
+v2  clk gnd pulse(0 5 0 5u 5u 50u 100u)
+v3  data gnd pwl(0u 5 90u 5 100u 0 190u 0 200u 5 290u 5 300u 0 390u 0 400u 0 490u 0 500u 5 590u 5 600u 0 690u 0 700u 5 790u 5 800u 0 890u 0 900u 0 990u 0 1000u 0 1090u 0 1100u 0)
+* u3  data plot_v1
+* u2  clk_line plot_v1
+.tran 1e-06 1100e-06 0e-00
+
+* Control Statements 
+.control
+run
+set xbrushwidth = 3.5
+print allv > plot_data_v.txt
+print alli > plot_data_i.txt
+plot v(clk)
+plot v(data_line)
+plot v(data)
+plot v(clk_line)
+plot v(clk)+18 v(data)+12 v(clk_line)+6 v(data_line)
+.endc
+.end
